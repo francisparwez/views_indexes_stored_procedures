@@ -1,0 +1,1059 @@
+USE master;
+GO
+
+IF DB_ID (N'EcommerceDB') IS NULL BEGIN CREATE DATABASE EcommerceDB;
+
+END;
+GO
+
+USE EcommerceDB;
+GO
+
+IF OBJECT_ID (N'dbo.Orders', N'U') IS NOT NULL DROP TABLE dbo.Orders;
+
+IF OBJECT_ID (N'dbo.Products', N'U') IS NOT NULL
+DROP TABLE dbo.Products;
+
+IF OBJECT_ID (N'dbo.Users', N'U') IS NOT NULL DROP TABLE dbo.Users;
+GO
+
+CREATE TABLE dbo.Users (
+    UserID INT IDENTITY (1, 1) NOT NULL CONSTRAINT PK_Users PRIMARY KEY CLUSTERED,
+    FirstName VARCHAR(50) NOT NULL,
+    LastName VARCHAR(50) NOT NULL,
+    Email VARCHAR(100) NOT NULL CONSTRAINT UQ_Users_Email UNIQUE,
+    City VARCHAR(50) NOT NULL,
+    RegistrationDate DATE NOT NULL CONSTRAINT DF_Users_RegistrationDate DEFAULT(CONVERT(DATE, GETDATE ()))
+);
+GO
+
+CREATE TABLE dbo.Products (
+    ProductID INT IDENTITY (1, 1) NOT NULL CONSTRAINT PK_Products PRIMARY KEY CLUSTERED,
+    ProductName VARCHAR(100) NOT NULL,
+    Category VARCHAR(50) NOT NULL,
+    Price DECIMAL(12, 2) NOT NULL,
+    StockQuantity INT NOT NULL,
+    CONSTRAINT CK_Products_Price CHECK (Price > 0),
+    CONSTRAINT CK_Products_Stock CHECK (StockQuantity >= 0)
+);
+GO
+
+CREATE TABLE dbo.Orders (
+    OrderID INT IDENTITY (1, 1) NOT NULL CONSTRAINT PK_Orders PRIMARY KEY CLUSTERED,
+    UserID INT NOT NULL,
+    ProductID INT NOT NULL,
+    OrderDate DATE NOT NULL,
+    TotalAmount DECIMAL(12, 2) NOT NULL,
+    OrderStatus VARCHAR(30) NOT NULL,
+    CONSTRAINT FK_Orders_Users FOREIGN KEY (UserID) REFERENCES dbo.Users (UserID),
+    CONSTRAINT FK_Orders_Products FOREIGN KEY (ProductID) REFERENCES dbo.Products (ProductID),
+    CONSTRAINT CK_Orders_TotalAmount CHECK (TotalAmount > 0),
+    CONSTRAINT CK_Orders_Status CHECK (
+        OrderStatus IN (
+            'Pending',
+            'Shipped',
+            'Completed',
+            'Cancelled'
+        )
+    )
+);
+GO
+
+INSERT INTO
+    dbo.Users (
+        FirstName,
+        LastName,
+        Email,
+        City,
+        RegistrationDate
+    )
+VALUES (
+        'Ali',
+        'Khan',
+        'ali.khan@example.com',
+        'Karachi',
+        '2024-01-15'
+    ),
+    (
+        'Sara',
+        'Ahmed',
+        'sara.ahmed@example.com',
+        'Lahore',
+        '2024-02-02'
+    ),
+    (
+        'Hassan',
+        'Raza',
+        'hassan.raza@example.com',
+        'Islamabad',
+        '2024-02-18'
+    ),
+    (
+        'Ayesha',
+        'Malik',
+        'ayesha.malik@example.com',
+        'Karachi',
+        '2024-03-05'
+    ),
+    (
+        'Usman',
+        'Sheikh',
+        'usman.sheikh@example.com',
+        'Rawalpindi',
+        '2024-03-22'
+    ),
+    (
+        'Fatima',
+        'Iqbal',
+        'fatima.iqbal@example.com',
+        'Lahore',
+        '2024-04-10'
+    ),
+    (
+        'Bilal',
+        'Hussain',
+        'bilal.hussain@example.com',
+        'Karachi',
+        '2024-04-29'
+    ),
+    (
+        'Zainab',
+        'Ali',
+        'zainab.ali@example.com',
+        'Peshawar',
+        '2024-05-11'
+    ),
+    (
+        'Hamza',
+        'Farooq',
+        'hamza.farooq@example.com',
+        'Islamabad',
+        '2024-05-27'
+    ),
+    (
+        'Mariam',
+        'Aslam',
+        'mariam.aslam@example.com',
+        'Multan',
+        '2024-06-14'
+    ),
+    (
+        'Ahmed',
+        'Nawaz',
+        'ahmed.nawaz@example.com',
+        'Karachi',
+        '2024-06-30'
+    ),
+    (
+        'Hira',
+        'Shah',
+        'hira.shah@example.com',
+        'Lahore',
+        '2024-07-12'
+    ),
+    (
+        'Omar',
+        'Siddiqui',
+        'omar.siddiqui@example.com',
+        'Hyderabad',
+        '2024-07-29'
+    ),
+    (
+        'Noor',
+        'Javed',
+        'noor.javed@example.com',
+        'Karachi',
+        '2024-08-08'
+    ),
+    (
+        'Danish',
+        'Akram',
+        'danish.akram@example.com',
+        'Quetta',
+        '2024-08-25'
+    ),
+    (
+        'Iqra',
+        'Yousuf',
+        'iqra.yousuf@example.com',
+        'Lahore',
+        '2024-09-09'
+    ),
+    (
+        'Saad',
+        'Qureshi',
+        'saad.qureshi@example.com',
+        'Islamabad',
+        '2024-09-21'
+    ),
+    (
+        'Laiba',
+        'Rashid',
+        'laiba.rashid@example.com',
+        'Karachi',
+        '2024-10-04'
+    ),
+    (
+        'Taha',
+        'Mehmood',
+        'taha.mehmood@example.com',
+        'Faisalabad',
+        '2024-10-19'
+    ),
+    (
+        'Eman',
+        'Khalid',
+        'eman.khalid@example.com',
+        'Lahore',
+        '2024-11-02'
+    ),
+    (
+        'Rehan',
+        'Butt',
+        'rehan.butt@example.com',
+        'Karachi',
+        '2024-11-16'
+    ),
+    (
+        'Sana',
+        'Nadeem',
+        'sana.nadeem@example.com',
+        'Multan',
+        '2024-12-01'
+    ),
+    (
+        'Adeel',
+        'Saeed',
+        'adeel.saeed@example.com',
+        'Islamabad',
+        '2024-12-14'
+    ),
+    (
+        'Maha',
+        'Tariq',
+        'maha.tariq@example.com',
+        'Karachi',
+        '2025-01-06'
+    ),
+    (
+        'Fahad',
+        'Mirza',
+        'fahad.mirza@example.com',
+        'Peshawar',
+        '2025-01-20'
+    ),
+    (
+        'Kiran',
+        'Abbasi',
+        'kiran.abbasi@example.com',
+        'Lahore',
+        '2025-02-03'
+    ),
+    (
+        'Noman',
+        'Aziz',
+        'noman.aziz@example.com',
+        'Karachi',
+        '2025-02-18'
+    ),
+    (
+        'Anum',
+        'Rauf',
+        'anum.rauf@example.com',
+        'Hyderabad',
+        '2025-03-04'
+    ),
+    (
+        'Shahzaib',
+        'Ilyas',
+        'shahzaib.ilyas@example.com',
+        'Islamabad',
+        '2025-03-19'
+    ),
+    (
+        'Mehwish',
+        'Sultan',
+        'mehwish.sultan@example.com',
+        'Karachi',
+        '2025-04-02'
+    ),
+    (
+        'Rizwan',
+        'Anwar',
+        'rizwan.anwar@example.com',
+        'Lahore',
+        '2025-04-17'
+    ),
+    (
+        'Dua',
+        'Naseer',
+        'dua.naseer@example.com',
+        'Quetta',
+        '2025-05-01'
+    ),
+    (
+        'Arsalan',
+        'Khan',
+        'arsalan.khan@example.com',
+        'Karachi',
+        '2025-05-16'
+    ),
+    (
+        'Muneeb',
+        'Riaz',
+        'muneeb.riaz@example.com',
+        'Faisalabad',
+        '2025-06-01'
+    ),
+    (
+        'Sadia',
+        'Bashir',
+        'sadia.bashir@example.com',
+        'Lahore',
+        '2025-06-15'
+    );
+GO
+
+INSERT INTO
+    dbo.Products (
+        ProductName,
+        Category,
+        Price,
+        StockQuantity
+    )
+VALUES (
+        'Wireless Mouse',
+        'Electronics',
+        2500,
+        120
+    ),
+    (
+        'Mechanical Keyboard',
+        'Electronics',
+        8500,
+        65
+    ),
+    (
+        'USB-C Hub',
+        'Electronics',
+        6200,
+        50
+    ),
+    (
+        'Bluetooth Headphones',
+        'Electronics',
+        12500,
+        40
+    ),
+    (
+        'Laptop Stand',
+        'Accessories',
+        4200,
+        75
+    ),
+    (
+        'Webcam',
+        'Electronics',
+        9800,
+        30
+    ),
+    (
+        'External SSD 1TB',
+        'Electronics',
+        24500,
+        25
+    ),
+    (
+        'Monitor 24 Inch',
+        'Electronics',
+        38500,
+        18
+    ),
+    (
+        'Office Chair',
+        'Furniture',
+        42000,
+        20
+    ),
+    (
+        'Desk Lamp',
+        'Home & Office',
+        5500,
+        55
+    ),
+    (
+        'Notebook Set',
+        'Stationery',
+        1200,
+        200
+    ),
+    (
+        'Gel Pen Pack',
+        'Stationery',
+        650,
+        300
+    ),
+    (
+        'Water Bottle',
+        'Lifestyle',
+        1800,
+        150
+    ),
+    (
+        'Backpack',
+        'Accessories',
+        6800,
+        45
+    ),
+    (
+        'Power Bank',
+        'Electronics',
+        7500,
+        60
+    ),
+    (
+        'Smart Watch',
+        'Electronics',
+        18500,
+        28
+    ),
+    (
+        'HDMI Cable',
+        'Accessories',
+        950,
+        180
+    ),
+    (
+        'Phone Case',
+        'Accessories',
+        800,
+        220
+    ),
+    (
+        'Portable Speaker',
+        'Electronics',
+        8900,
+        35
+    ),
+    (
+        'Desk Organizer',
+        'Home & Office',
+        2100,
+        90
+    ),
+    (
+        'Printer',
+        'Electronics',
+        32500,
+        12
+    ),
+    (
+        'Printer Paper',
+        'Stationery',
+        1600,
+        140
+    ),
+    (
+        'Tablet',
+        'Electronics',
+        56000,
+        15
+    ),
+    (
+        'Laptop',
+        'Electronics',
+        185000,
+        10
+    ),
+    (
+        'Coffee Mug',
+        'Lifestyle',
+        1400,
+        110
+    ),
+    (
+        'Wireless Charger',
+        'Electronics',
+        3900,
+        70
+    ),
+    (
+        'Drawing Tablet',
+        'Electronics',
+        27500,
+        14
+    ),
+    (
+        'Filing Cabinet',
+        'Furniture',
+        29500,
+        8
+    ),
+    (
+        'Whiteboard',
+        'Home & Office',
+        11500,
+        16
+    ),
+    (
+        'Stapler',
+        'Stationery',
+        750,
+        130
+    ),
+    (
+        'Calculator',
+        'Stationery',
+        1900,
+        85
+    ),
+    (
+        'Desk Mat',
+        'Accessories',
+        2300,
+        95
+    ),
+    (
+        'Router',
+        'Electronics',
+        11500,
+        22
+    ),
+    (
+        'Microphone',
+        'Electronics',
+        16500,
+        19
+    ),
+    (
+        'LED Monitor Light',
+        'Accessories',
+        7200,
+        32
+    );
+GO
+
+INSERT INTO
+    dbo.Orders (
+        UserID,
+        ProductID,
+        OrderDate,
+        TotalAmount,
+        OrderStatus
+    )
+VALUES (
+        1,
+        7,
+        '2025-01-01',
+        65000,
+        'Completed'
+    ),
+    (
+        2,
+        14,
+        '2025-01-02',
+        52000,
+        'Completed'
+    ),
+    (
+        3,
+        21,
+        '2025-01-03',
+        4500,
+        'Pending'
+    ),
+    (
+        4,
+        28,
+        '2025-01-04',
+        26000,
+        'Shipped'
+    ),
+    (
+        5,
+        35,
+        '2025-01-05',
+        112000,
+        'Cancelled'
+    ),
+    (
+        6,
+        7,
+        '2025-01-06',
+        9200,
+        'Completed'
+    ),
+    (
+        7,
+        14,
+        '2025-01-07',
+        38000,
+        'Pending'
+    ),
+    (
+        8,
+        21,
+        '2025-01-08',
+        1800,
+        'Completed'
+    ),
+    (
+        9,
+        28,
+        '2025-01-09',
+        14500,
+        'Completed'
+    ),
+    (
+        10,
+        35,
+        '2025-01-10',
+        52000,
+        'Pending'
+    ),
+    (
+        11,
+        7,
+        '2025-01-11',
+        4500,
+        'Shipped'
+    ),
+    (
+        12,
+        14,
+        '2025-01-12',
+        26000,
+        'Cancelled'
+    ),
+    (
+        13,
+        21,
+        '2025-01-13',
+        112000,
+        'Completed'
+    ),
+    (
+        14,
+        28,
+        '2025-01-14',
+        9200,
+        'Pending'
+    ),
+    (
+        15,
+        35,
+        '2025-01-15',
+        38000,
+        'Completed'
+    ),
+    (
+        16,
+        7,
+        '2025-01-16',
+        1800,
+        'Completed'
+    ),
+    (
+        17,
+        14,
+        '2025-01-17',
+        14500,
+        'Pending'
+    ),
+    (
+        18,
+        21,
+        '2025-01-18',
+        52000,
+        'Shipped'
+    ),
+    (
+        19,
+        28,
+        '2025-01-19',
+        4500,
+        'Cancelled'
+    ),
+    (
+        20,
+        35,
+        '2025-01-20',
+        26000,
+        'Completed'
+    ),
+    (
+        21,
+        7,
+        '2025-01-21',
+        112000,
+        'Pending'
+    ),
+    (
+        22,
+        14,
+        '2025-01-22',
+        9200,
+        'Completed'
+    ),
+    (
+        23,
+        21,
+        '2025-01-23',
+        38000,
+        'Completed'
+    ),
+    (
+        24,
+        28,
+        '2025-01-24',
+        1800,
+        'Pending'
+    ),
+    (
+        25,
+        35,
+        '2025-01-25',
+        14500,
+        'Shipped'
+    ),
+    (
+        1,
+        7,
+        '2025-01-26',
+        52000,
+        'Cancelled'
+    ),
+    (
+        2,
+        14,
+        '2025-01-27',
+        4500,
+        'Completed'
+    ),
+    (
+        3,
+        21,
+        '2025-01-28',
+        26000,
+        'Pending'
+    ),
+    (
+        4,
+        28,
+        '2025-02-01',
+        112000,
+        'Completed'
+    ),
+    (
+        5,
+        35,
+        '2025-02-02',
+        9200,
+        'Completed'
+    ),
+    (
+        6,
+        7,
+        '2025-02-03',
+        38000,
+        'Pending'
+    ),
+    (
+        7,
+        14,
+        '2025-02-04',
+        1800,
+        'Shipped'
+    ),
+    (
+        8,
+        21,
+        '2025-02-05',
+        14500,
+        'Cancelled'
+    ),
+    (
+        9,
+        28,
+        '2025-02-06',
+        52000,
+        'Completed'
+    ),
+    (
+        10,
+        35,
+        '2025-02-07',
+        4500,
+        'Pending'
+    ),
+    (
+        11,
+        7,
+        '2025-02-08',
+        26000,
+        'Completed'
+    ),
+    (
+        12,
+        14,
+        '2025-02-09',
+        112000,
+        'Completed'
+    ),
+    (
+        13,
+        21,
+        '2025-02-10',
+        9200,
+        'Pending'
+    ),
+    (
+        14,
+        28,
+        '2025-02-11',
+        38000,
+        'Shipped'
+    ),
+    (
+        15,
+        35,
+        '2025-02-12',
+        1800,
+        'Cancelled'
+    ),
+    (
+        16,
+        7,
+        '2025-02-13',
+        14500,
+        'Completed'
+    ),
+    (
+        17,
+        14,
+        '2025-02-14',
+        52000,
+        'Pending'
+    ),
+    (
+        18,
+        21,
+        '2025-02-15',
+        4500,
+        'Completed'
+    ),
+    (
+        19,
+        28,
+        '2025-02-16',
+        26000,
+        'Completed'
+    ),
+    (
+        20,
+        35,
+        '2025-02-17',
+        112000,
+        'Pending'
+    ),
+    (
+        21,
+        7,
+        '2025-02-18',
+        9200,
+        'Shipped'
+    ),
+    (
+        22,
+        14,
+        '2025-02-19',
+        38000,
+        'Cancelled'
+    ),
+    (
+        23,
+        21,
+        '2025-02-20',
+        1800,
+        'Completed'
+    ),
+    (
+        24,
+        28,
+        '2025-02-21',
+        14500,
+        'Pending'
+    ),
+    (
+        25,
+        35,
+        '2025-02-22',
+        52000,
+        'Completed'
+    ),
+    (
+        1,
+        7,
+        '2025-02-23',
+        88000,
+        'Completed'
+    ),
+    (
+        2,
+        14,
+        '2025-02-24',
+        26000,
+        'Pending'
+    ),
+    (
+        3,
+        21,
+        '2025-02-25',
+        112000,
+        'Shipped'
+    ),
+    (
+        4,
+        28,
+        '2025-02-26',
+        9200,
+        'Cancelled'
+    ),
+    (
+        5,
+        35,
+        '2025-02-27',
+        38000,
+        'Completed'
+    ),
+    (
+        6,
+        7,
+        '2025-02-28',
+        1800,
+        'Pending'
+    ),
+    (
+        7,
+        14,
+        '2025-03-01',
+        14500,
+        'Completed'
+    ),
+    (
+        8,
+        21,
+        '2025-03-02',
+        52000,
+        'Completed'
+    ),
+    (
+        9,
+        28,
+        '2025-03-03',
+        4500,
+        'Pending'
+    ),
+    (
+        10,
+        35,
+        '2025-03-04',
+        26000,
+        'Shipped'
+    ),
+    (
+        11,
+        7,
+        '2025-03-05',
+        112000,
+        'Cancelled'
+    ),
+    (
+        12,
+        14,
+        '2025-03-06',
+        9200,
+        'Completed'
+    ),
+    (
+        13,
+        21,
+        '2025-03-07',
+        38000,
+        'Pending'
+    ),
+    (
+        14,
+        28,
+        '2025-03-08',
+        1800,
+        'Completed'
+    ),
+    (
+        15,
+        35,
+        '2025-03-09',
+        14500,
+        'Completed'
+    ),
+    (
+        16,
+        7,
+        '2025-03-10',
+        52000,
+        'Pending'
+    ),
+    (
+        17,
+        14,
+        '2025-03-11',
+        4500,
+        'Shipped'
+    ),
+    (
+        18,
+        21,
+        '2025-03-12',
+        26000,
+        'Cancelled'
+    ),
+    (
+        19,
+        28,
+        '2025-03-13',
+        112000,
+        'Completed'
+    ),
+    (
+        20,
+        35,
+        '2025-03-14',
+        9200,
+        'Pending'
+    );
+GO
+
+SELECT 'Users' AS TableName, COUNT(*) AS TotalRecords
+FROM dbo.Users
+UNION ALL
+SELECT 'Products', COUNT(*)
+FROM dbo.Products
+UNION ALL
+SELECT 'Orders', COUNT(*)
+FROM dbo.Orders;
+GO
+
+SELECT u.UserID, u.FirstName, u.LastName, COUNT(o.OrderID) AS TotalOrders
+FROM dbo.Users AS u
+    LEFT JOIN dbo.Orders AS o ON u.UserID = o.UserID
+GROUP BY
+    u.UserID,
+    u.FirstName,
+    u.LastName
+ORDER BY u.UserID;
+GO
+
+SELECT * FROM dbo.Users WHERE UserID = 1;
+
+SELECT * FROM dbo.Products WHERE ProductID = 3;
+GO
