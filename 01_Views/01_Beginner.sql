@@ -37,3 +37,23 @@ FROM Users;
 GO
 
 SELECT * FROM vw_UserContactDetails;
+
+--Q3. Create a filtered View
+--Problem: Marketing wants a list of customers registered in Karachi.
+--Task: Create vw_KarachiUsers
+--Hint: WHERE
+
+--Explanation: The WHERE clause filters records. Only Karachi customers appear when
+--querying this View.
+
+USE EcommerceDB;
+GO
+
+CREATE VIEW vw_KarachiUsers AS
+SELECT *
+FROM Users
+WHERE
+    City = 'Karachi';
+GO
+
+SELECT * FROM vw_KarachiUsers;
