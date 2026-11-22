@@ -57,3 +57,40 @@ WHERE
 GO
 
 SELECT * FROM vw_KarachiUsers;
+
+-- Q4. Retrieve sorted View results
+-- Problem: Management wants to see the newest registered customers first.
+-- Task: Create vw_RecentUsers and retrieve users ordered by RegistrationDate descending.
+-- Hint: ORDER BY , DESC . Apply sorting in the outer SELECT.
+-- Explanation: The View stores the customer information. The outer query determines the display order. A View does not guarantee row ordering.
+
+USE EcommerceDB;
+GO
+
+CREATE VIEW vw_RecentUsers AS
+SELECT
+    UserID,
+    FirstName,
+    LastName,
+    RegistrationDate
+FROM Users;
+GO
+SELECT * FROM vw_RecentUsers ORDER BY RegistrationDate DESC;
+
+-- Q5. Create a View using INNER JOIN
+-- Problem: The sales department wants customer names alongside their orders.
+-- Task: Create vw_UserOrders .
+-- Hint: Join Users and Orders on UserID
+
+-- Explanation: INNER JOIN combines matching customer and order records.
+
+USE EcommerceDB;
+GO
+
+CREATE VIEW vw_UserOrders AS
+SELECT o.OrderID, u.UserID, u.FirstName, u.LastName, o.OrderDate, o.TotalAmount, o.OrderStatus
+FROM Users u
+    INNER JOIN Orders o ON u.UserID = o.UserID;
+GO
+
+SELECT * FROM vw_UserOrders;

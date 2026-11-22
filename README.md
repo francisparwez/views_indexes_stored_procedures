@@ -1,6 +1,6 @@
 # SQL Server: Views, Indexes & Stored Procedures
 
-A practical Microsoft SQL Server (T-SQL) learning project containing **60 beginner-to-intermediate exercises** built around a shared e-commerce database. The database setup script creates the schema, inserts sample records and runs verification queries. The first three Beginner View exercises are implemented in `01_Views/01_Beginner.sql`; the remaining exercise descriptions define the practice curriculum and are to be implemented.
+A practical Microsoft SQL Server (T-SQL) learning project containing **60 beginner-to-intermediate exercises** built around a shared e-commerce database. The database setup script creates the schema, inserts sample records and runs verification queries. The first five Beginner View exercises are implemented in `01_Views/01_Beginner.sql`; the remaining exercise descriptions define the practice curriculum and are to be implemented.
 
 ## Project Overview
 
@@ -13,7 +13,7 @@ This project focuses on three important SQL Server topics:
 | Stored Procedures |        20 | 10 Beginner + 10 Intermediate     |
 | **Total**         |    **60** | **30 Beginner + 30 Intermediate** |
 
-Each exercise is based on a business scenario and is documented in the accompanying practice material with a problem statement, task, hint, T-SQL implementation and explanation. Completed exercise scripts are saved in their respective module folders. Currently, Views Q1, Q2 and Q3 are implemented; the remaining exercises are pending.
+Each exercise is based on a business scenario and is documented in the accompanying practice material with a problem statement, task, hint, T-SQL implementation and explanation. Completed exercise scripts are saved in their respective module folders. Currently, Views Q1–Q5 are implemented; the remaining exercises are pending.
 
 ## Database Context
 
@@ -84,9 +84,9 @@ views_indexes_stored_procedures/
 
 **20 Questions · 10 Beginner + 10 Intermediate**
 
-The questions below describe the View exercises. Q1, Q2 and Q3 are implemented in `01_Views/01_Beginner.sql`; the database setup script itself does not create Views.
+The questions below describe the View exercises. Q1–Q5 are implemented in `01_Views/01_Beginner.sql`; the database setup script itself does not create Views.
 
-**Completed implementations — Q1–Q3:** The script selects `EcommerceDB`, creates `vw_Users` to expose all columns from `Users`, and verifies it with a SELECT query. It also creates `vw_UserContactDetails` with only `UserID`, `FirstName`, `LastName`, `Email` and `City`, then queries that View. For Q3, it creates `vw_KarachiUsers` using `WHERE City = 'Karachi'` and queries the View to return only Karachi customers. These Views store query definitions rather than separate copies of the table data.
+**Completed implementations — Q1–Q5:** The script selects `EcommerceDB`, creates `vw_Users` to expose all columns from `Users`, and verifies it with a SELECT query. It creates `vw_UserContactDetails` with only `UserID`, `FirstName`, `LastName`, `Email` and `City`, then queries that View. For Q3, it creates `vw_KarachiUsers` using `WHERE City = 'Karachi'` and queries the View to return only Karachi customers. Q4 creates `vw_RecentUsers` with registration details and sorts the results by `RegistrationDate DESC` in the outer SELECT, since a View does not guarantee row ordering. Q5 creates `vw_UserOrders` by joining `Users` and `Orders` with `INNER JOIN` on `UserID`, then queries the View to return matching customers and their order details. These Views store query definitions rather than separate copies of the table data.
 
 ### Learning Objectives
 
@@ -107,8 +107,8 @@ The questions below describe the View exercises. Q1, Q2 and Q3 are implemented i
 | Q1       | <u>Completed</u> — create `vw_Users` to expose all columns from `Users`; verify it with `SELECT * FROM vw_Users` in `01_Views/01_Beginner.sql`.                                                       |
 | Q2       | <u>Completed</u> — create `vw_UserContactDetails` exposing `UserID`, `FirstName`, `LastName`, `Email` and `City`; verify it with `SELECT * FROM vw_UserContactDetails` in `01_Views/01_Beginner.sql`. |
 | Q3       | <u>Completed</u> — create `vw_KarachiUsers` with `WHERE City = 'Karachi'` and verify it with `SELECT * FROM vw_KarachiUsers` in `01_Views/01_Beginner.sql`.                                           |
-| Q4       | Retrieve recent users and sort the View output by registration date (`vw_RecentUsers`).                                                                                                               |
-| Q5       | Join Users and Orders (`vw_UserOrders`).                                                                                                                                                              |
+| Q4       | <u>Completed</u> — create `vw_RecentUsers` with registration details and sort the results by `RegistrationDate DESC` in the outer SELECT in `01_Views/01_Beginner.sql`.                               |
+| Q5       | <u>Completed</u> — create `vw_UserOrders` using `INNER JOIN` on `UserID` to display matching customer and order details in `01_Views/01_Beginner.sql`.                                                |
 | Q6       | Join Users, Products and Orders (`vw_OrderDetails`).                                                                                                                                                  |
 | Q7       | Count orders per customer (`vw_CustomerOrderCount`).                                                                                                                                                  |
 | Q8       | Calculate customer order totals (`vw_CustomerRevenue`).                                                                                                                                               |
@@ -267,7 +267,9 @@ The questions below describe the Stored Procedure exercises to be implemented. T
 - [x] Complete Beginner Views Q1: create and query `vw_Users`.
 - [x] Complete Beginner Views Q2: create and query `vw_UserContactDetails` with selected customer contact columns.
 - [x] Complete Beginner Views Q3: create and query `vw_KarachiUsers` to filter users by city.
-- [ ] Complete the remaining 7 Beginner Views exercises (Q4–Q10).
+- [x] Complete Beginner Views Q4: create `vw_RecentUsers` and sort its results by registration date descending.
+- [x] Complete Beginner Views Q5: create `vw_UserOrders` using INNER JOIN to retrieve customer and order details.
+- [ ] Complete the remaining 5 Beginner Views exercises (Q6–Q10).
 - [ ] Complete 10 Intermediate Views exercises.
 - [ ] Complete 10 Beginner Indexes exercises.
 - [ ] Complete 10 Intermediate Indexes exercises.
