@@ -94,3 +94,40 @@ FROM Users u
 GO
 
 SELECT * FROM vw_UserOrders;
+
+-- Q6. Create a View using three tables
+-- Problem: Management wants customer, product and order information in one report.
+-- Task: Create vw_OrderDetails .
+-- Hint: Two INNER JOIN operations
+-- Explanation: Combines three related tables through their foreign-key relationships.
+
+USE EcommerceDB;
+GO
+
+CREATE VIEW vw_OrderDetails AS
+SELECT o.OrderID, u.FirstName, u.LastName, p.ProductName, p.Category, o.OrderDate, o.TotalAmount, o.OrderStatus
+FROM
+    Orders o
+    INNER JOIN Users u ON o.UserID = u.UserID
+    INNER JOIN Products p ON o.ProductID = p.ProductID;
+GO
+
+SELECT * FROM vw_OrderDetails;
+
+-- Q7. Count orders per customer
+-- Problem: Management wants to know how many orders each customer has placed.
+-- Task: Create vw_CustomerOrderCount .
+-- Hint: COUNT() , GROUP BY .
+-- Explanation: COUNT calculates the number of orders per customer. GROUP BY creates one result per UserID.
+
+USE EcommerceDB;
+GO
+
+CREATE VIEW vw_CustomerOrderCount AS
+SELECT UserID, COUNT(OrderID) AS TotalOrders
+FROM Orders
+GROUP BY
+    UserID;
+GO
+
+SELECT * FROM vw_CustomerOrderCount;
