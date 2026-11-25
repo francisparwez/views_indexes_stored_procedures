@@ -131,3 +131,41 @@ GROUP BY
 GO
 
 SELECT * FROM vw_CustomerOrderCount;
+
+-- Q8. Calculate customer revenue
+-- Problem: Finance wants total order amounts grouped by customer.
+-- Task:
+--     Create vw_CustomerRevenue .
+-- Hint:
+--     SUM() , GROUP BY .
+-- Explanation: SUM calculates each customer's total order amount. This example includes all order statuses.
+
+USE EcommerceDB;
+GO
+
+CREATE VIEW vw_CustomerRevenue AS
+SELECT UserID, SUM(TotalAmount) AS TotalRevenue
+FROM Orders
+GROUP BY
+    UserID;
+GO
+
+SELECT * FROM vw_CustomerRevenue;
+
+-- Q9. Modify an existing View
+-- Problem: The original vw_Users contains unnecessary columns.
+-- Task: Modify it to show only UserID, FirstName, LastName and City.
+-- Hint:
+--     ALTER VIEW
+
+-- Explanation: ALTER VIEW replaces the existing View definition without needing to drop and recreate the object.
+
+USE EcommerceDB;
+GO
+
+ALTER VIEW vw_Users AS
+SELECT UserID, FirstName, LastName, City
+FROM Users;
+GO
+
+SELECT * FROM vw_Users;
