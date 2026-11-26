@@ -1,6 +1,6 @@
 # SQL Server: Views, Indexes & Stored Procedures
 
-A practical Microsoft SQL Server (T-SQL) learning project containing **60 beginner-to-intermediate exercises** built around a shared e-commerce database. The database setup script creates the schema, inserts sample records and runs verification queries. The first nine Beginner View exercises are implemented in `01_Views/01_Beginner.sql`; the remaining exercise descriptions define the practice curriculum and are to be implemented.
+A practical Microsoft SQL Server (T-SQL) learning project containing **60 beginner-to-intermediate exercises** built around a shared e-commerce database. The database setup script creates the schema, inserts sample records and runs verification queries. The first ten Beginner View exercises are implemented in `01_Views/01_Beginner.sql`; the remaining exercise descriptions define the practice curriculum and are to be implemented.
 
 ## Project Overview
 
@@ -13,7 +13,7 @@ This project focuses on three important SQL Server topics:
 | Stored Procedures |        20 | 10 Beginner + 10 Intermediate     |
 | **Total**         |    **60** | **30 Beginner + 30 Intermediate** |
 
-Each exercise is based on a business scenario and is documented in the accompanying practice material with a problem statement, task, hint, T-SQL implementation and explanation. Completed exercise scripts are saved in their respective module folders. Currently, Views Q1–Q9 are implemented; the remaining exercises are pending.
+Each exercise is based on a business scenario and is documented in the accompanying practice material with a problem statement, task, hint, T-SQL implementation and explanation. Completed exercise scripts are saved in their respective module folders. Currently, Beginner Views Q1–Q10 are implemented; the remaining exercises are pending.
 
 ## Database Context
 
@@ -84,9 +84,9 @@ views_indexes_stored_procedures/
 
 **20 Questions · 10 Beginner + 10 Intermediate**
 
-The questions below describe the View exercises. Q1–Q9 are implemented in `01_Views/01_Beginner.sql`; the database setup script itself does not create Views.
+The questions below describe the View exercises. Q1–Q10 are implemented in `01_Views/01_Beginner.sql`; the database setup script itself does not create Views.
 
-**Completed implementations — Q1–Q9:** The script selects `EcommerceDB`, creates `vw_Users` to expose all columns from `Users`, and verifies it with a SELECT query. It creates `vw_UserContactDetails` with only `UserID`, `FirstName`, `LastName`, `Email` and `City`, then queries that View. Q3 creates `vw_KarachiUsers` using `WHERE City = 'Karachi'`. Q4 creates `vw_RecentUsers` and sorts its results by `RegistrationDate DESC` in the outer SELECT, since a View does not guarantee row ordering. Q5 creates `vw_UserOrders` by joining `Users` and `Orders` with `INNER JOIN` on `UserID`. Q6 creates `vw_OrderDetails` by joining `Orders` to `Users` and `Products`. Q7 creates `vw_CustomerOrderCount` using `COUNT(OrderID)` and `GROUP BY UserID`. Q8 creates `vw_CustomerRevenue` using `SUM(TotalAmount)` and `GROUP BY UserID` to calculate each customer's total order amount across all order statuses. Q9 modifies `vw_Users` with `ALTER VIEW` to expose only `UserID`, `FirstName`, `LastName` and `City`, replacing its original definition without dropping and recreating the View. Each View is queried for verification; Views store query definitions rather than separate copies of the table data.
+**Completed implementations — Q1–Q10:** The script selects `EcommerceDB`, creates `vw_Users` to expose all columns from `Users`, and verifies it with a SELECT query. It creates `vw_UserContactDetails` with only `UserID`, `FirstName`, `LastName`, `Email` and `City`, then queries that View. Q3 creates `vw_KarachiUsers` using `WHERE City = 'Karachi'`. Q4 creates `vw_RecentUsers` and sorts its results by `RegistrationDate DESC` in the outer SELECT, since a View does not guarantee row ordering. Q5 creates `vw_UserOrders` by joining `Users` and `Orders` with `INNER JOIN` on `UserID`. Q6 creates `vw_OrderDetails` by joining `Orders` to `Users` and `Products`. Q7 creates `vw_CustomerOrderCount` using `COUNT(OrderID)` and `GROUP BY UserID`. Q8 creates `vw_CustomerRevenue` using `SUM(TotalAmount)` and `GROUP BY UserID` to calculate each customer's total order amount across all order statuses. Q9 modifies `vw_Users` with `ALTER VIEW` to expose only `UserID`, `FirstName`, `LastName` and `City`, replacing its original definition without dropping and recreating the View. Q10 safely removes `vw_KarachiUsers` with `DROP VIEW IF EXISTS`; this removes the View definition without deleting the underlying `Users` table or its records. Each created or modified View is queried for verification; Views store query definitions rather than separate copies of the table data.
 
 ### Learning Objectives
 
@@ -113,7 +113,7 @@ The questions below describe the View exercises. Q1–Q9 are implemented in `01_
 | Q7       | <u>Completed</u> — create `vw_CustomerOrderCount` using `COUNT(OrderID)` and `GROUP BY UserID`; verify it with `SELECT * FROM vw_CustomerOrderCount` in `01_Views/01_Beginner.sql`.                                                                 |
 | Q8       | <u>Completed</u> — create `vw_CustomerRevenue` using `SUM(TotalAmount)` and `GROUP BY UserID` to calculate each customer's total order amount across all statuses; verify it with `SELECT * FROM vw_CustomerRevenue` in `01_Views/01_Beginner.sql`. |
 | Q9       | <u>Completed</u> — modify `vw_Users` with `ALTER VIEW` to expose only `UserID`, `FirstName`, `LastName` and `City`; verify the revised View with `SELECT * FROM vw_Users` in `01_Views/01_Beginner.sql`.                                            |
-| Q10      | Remove a View using DROP VIEW IF EXISTS.                                                                                                                                                                                                            |
+| Q10      | <u>Completed</u> — safely remove `vw_KarachiUsers` using `DROP VIEW IF EXISTS`; the underlying `Users` table and its records remain intact in `01_Views/01_Beginner.sql`.                                                                           |
 
 ### Intermediate Exercises (Q11–Q20)
 
@@ -273,7 +273,7 @@ The questions below describe the Stored Procedure exercises to be implemented. T
 - [x] Complete Beginner Views Q7: create `vw_CustomerOrderCount` using COUNT and GROUP BY.
 - [x] Complete Beginner Views Q8: create `vw_CustomerRevenue` using SUM and GROUP BY.
 - [x] Complete Beginner Views Q9: modify `vw_Users` using ALTER VIEW to return selected customer columns.
-- [ ] Complete the remaining Beginner Views exercise (Q10).
+- [x] Complete Beginner Views Q10: safely drop `vw_KarachiUsers` using DROP VIEW IF EXISTS without affecting the underlying Users table or records.
 - [ ] Complete 10 Intermediate Views exercises.
 - [ ] Complete 10 Beginner Indexes exercises.
 - [ ] Complete 10 Intermediate Indexes exercises.

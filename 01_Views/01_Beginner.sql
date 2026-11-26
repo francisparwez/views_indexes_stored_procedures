@@ -169,3 +169,15 @@ FROM Users;
 GO
 
 SELECT * FROM vw_Users;
+
+-- Q10. Delete a View
+-- Problem: The marketing department no longer requires vw_KarachiUsers .
+-- Task: Delete the View safely.
+-- Hint: DROP VIEW IF EXISTS .
+-- Explanation: Removes the View definition, not the underlying Users table or its records.
+
+USE EcommerceDB;
+GO
+
+DROP VIEW IF EXISTS vw_KarachiUsers;
+GO
