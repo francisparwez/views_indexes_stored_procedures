@@ -1,6 +1,6 @@
 # SQL Server: Views, Indexes & Stored Procedures
 
-A practical Microsoft SQL Server (T-SQL) learning project containing **60 beginner-to-intermediate exercises** built around a shared e-commerce database. The database setup script creates the schema, inserts sample records and runs verification queries. The first ten Beginner View exercises are implemented in `01_Views/01_Beginner.sql`; the remaining exercise descriptions define the practice curriculum and are to be implemented.
+A practical Microsoft SQL Server (T-SQL) learning project containing **60 beginner-to-intermediate exercises** built around a shared e-commerce database. The database setup script creates the schema, inserts sample records and runs verification queries. Beginner Views Q1–Q10 and Intermediate Views Q11 are implemented in `01_Views/01_Beginner.sql` and `01_Views/02_Intermediate.sql`, respectively; the remaining exercise descriptions define the practice curriculum and are to be implemented.
 
 ## Project Overview
 
@@ -13,7 +13,7 @@ This project focuses on three important SQL Server topics:
 | Stored Procedures |        20 | 10 Beginner + 10 Intermediate     |
 | **Total**         |    **60** | **30 Beginner + 30 Intermediate** |
 
-Each exercise is based on a business scenario and is documented in the accompanying practice material with a problem statement, task, hint, T-SQL implementation and explanation. Completed exercise scripts are saved in their respective module folders. Currently, Beginner Views Q1–Q10 are implemented; the remaining exercises are pending.
+Each exercise is based on a business scenario and is documented in the accompanying practice material with a problem statement, task, hint, T-SQL implementation and explanation. Completed exercise scripts are saved in their respective module folders. Currently, Beginner Views Q1–Q10 and Intermediate Views Q11 are implemented; the remaining exercises are pending.
 
 ## Database Context
 
@@ -65,7 +65,8 @@ views_indexes_stored_procedures/
 ├── 00_Database_Setup/
 │   └── ecommerce_database.sql
 ├── 01_Views/
-│   └── 01_Beginner.sql
+│   ├── 01_Beginner.sql
+│   └── 02_Intermediate.sql
 └── README.md
 ```
 
@@ -84,9 +85,9 @@ views_indexes_stored_procedures/
 
 **20 Questions · 10 Beginner + 10 Intermediate**
 
-The questions below describe the View exercises. Q1–Q10 are implemented in `01_Views/01_Beginner.sql`; the database setup script itself does not create Views.
+The questions below describe the View exercises. Q1–Q10 are implemented in `01_Views/01_Beginner.sql`, and Q11 is implemented in `01_Views/02_Intermediate.sql`; the database setup script itself does not create Views.
 
-**Completed implementations — Q1–Q10:** The script selects `EcommerceDB`, creates `vw_Users` to expose all columns from `Users`, and verifies it with a SELECT query. It creates `vw_UserContactDetails` with only `UserID`, `FirstName`, `LastName`, `Email` and `City`, then queries that View. Q3 creates `vw_KarachiUsers` using `WHERE City = 'Karachi'`. Q4 creates `vw_RecentUsers` and sorts its results by `RegistrationDate DESC` in the outer SELECT, since a View does not guarantee row ordering. Q5 creates `vw_UserOrders` by joining `Users` and `Orders` with `INNER JOIN` on `UserID`. Q6 creates `vw_OrderDetails` by joining `Orders` to `Users` and `Products`. Q7 creates `vw_CustomerOrderCount` using `COUNT(OrderID)` and `GROUP BY UserID`. Q8 creates `vw_CustomerRevenue` using `SUM(TotalAmount)` and `GROUP BY UserID` to calculate each customer's total order amount across all order statuses. Q9 modifies `vw_Users` with `ALTER VIEW` to expose only `UserID`, `FirstName`, `LastName` and `City`, replacing its original definition without dropping and recreating the View. Q10 safely removes `vw_KarachiUsers` with `DROP VIEW IF EXISTS`; this removes the View definition without deleting the underlying `Users` table or its records. Each created or modified View is queried for verification; Views store query definitions rather than separate copies of the table data.
+**Completed implementations — Q1–Q10:** The script selects `EcommerceDB`, creates `vw_Users` to expose all columns from `Users`, and verifies it with a SELECT query. It creates `vw_UserContactDetails` with only `UserID`, `FirstName`, `LastName`, `Email` and `City`, then queries that View. Q3 creates `vw_KarachiUsers` using `WHERE City = 'Karachi'`. Q4 creates `vw_RecentUsers` and sorts its results by `RegistrationDate DESC` in the outer SELECT, since a View does not guarantee row ordering. Q5 creates `vw_UserOrders` by joining `Users` and `Orders` with `INNER JOIN` on `UserID`. Q6 creates `vw_OrderDetails` by joining `Orders` to `Users` and `Products`. Q7 creates `vw_CustomerOrderCount` using `COUNT(OrderID)` and `GROUP BY UserID`. Q8 creates `vw_CustomerRevenue` using `SUM(TotalAmount)` and `GROUP BY UserID` to calculate each customer's total order amount across all order statuses. Q9 modifies `vw_Users` with `ALTER VIEW` to expose only `UserID`, `FirstName`, `LastName` and `City`, replacing its original definition without dropping and recreating the View. Q10 safely removes `vw_KarachiUsers` with `DROP VIEW IF EXISTS`; this removes the View definition without deleting the underlying `Users` table or its records. Q11 creates `vw_AllCustomerOrders` by LEFT JOINing `Users` to `Orders` on `UserID`, preserving customers who have no orders and returning NULL for their order columns. The verification query filters the View with `WHERE OrderID IS NULL` to display those customers specifically. Each created or modified View is queried for verification; Views store query definitions rather than separate copies of the table data.
 
 ### Learning Objectives
 
@@ -117,18 +118,18 @@ The questions below describe the View exercises. Q1–Q10 are implemented in `01
 
 ### Intermediate Exercises (Q11–Q20)
 
-| Question | Objective / Implementation                                                                  |
-| -------- | ------------------------------------------------------------------------------------------- |
-| Q11      | Preserve customers without orders using LEFT JOIN (`vw_AllCustomerOrders`).                 |
-| Q12      | Categorise orders with CASE (`vw_OrderValueCategory`).                                      |
-| Q13      | Filter grouped customers using HAVING (`vw_FrequentCustomers`).                             |
-| Q14      | Identify above-average-priced products using a scalar subquery (`vw_AboveAverageProducts`). |
-| Q15      | Calculate completed-order revenue using a CTE (`vw_HighValueCustomers`).                    |
-| Q16      | Restrict modifications through a filtered View using WITH CHECK OPTION.                     |
-| Q17      | Protect referenced table definitions using SCHEMABINDING.                                   |
-| Q18      | Find each customer's highest-value order using MAX and a JOIN.                              |
-| Q19      | Rank customer orders using ROW_NUMBER and PARTITION BY.                                     |
-| Q20      | Inspect View definitions, dependencies and execution plans.                                 |
+| Question | Objective / Implementation                                                                                                                                                                                                          |
+| -------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Q11      | <u>Completed</u> — create `vw_AllCustomerOrders` using `LEFT JOIN` from `Users` to `Orders` on `UserID`, retaining customers without orders; verify those customers with `WHERE OrderID IS NULL` in `01_Views/02_Intermediate.sql`. |
+| Q12      | Categorise orders with CASE (`vw_OrderValueCategory`).                                                                                                                                                                              |
+| Q13      | Filter grouped customers using HAVING (`vw_FrequentCustomers`).                                                                                                                                                                     |
+| Q14      | Identify above-average-priced products using a scalar subquery (`vw_AboveAverageProducts`).                                                                                                                                         |
+| Q15      | Calculate completed-order revenue using a CTE (`vw_HighValueCustomers`).                                                                                                                                                            |
+| Q16      | Restrict modifications through a filtered View using WITH CHECK OPTION.                                                                                                                                                             |
+| Q17      | Protect referenced table definitions using SCHEMABINDING.                                                                                                                                                                           |
+| Q18      | Find each customer's highest-value order using MAX and a JOIN.                                                                                                                                                                      |
+| Q19      | Rank customer orders using ROW_NUMBER and PARTITION BY.                                                                                                                                                                             |
+| Q20      | Inspect View definitions, dependencies and execution plans.                                                                                                                                                                         |
 
 ## Module 2 – Indexes
 
@@ -274,7 +275,8 @@ The questions below describe the Stored Procedure exercises to be implemented. T
 - [x] Complete Beginner Views Q8: create `vw_CustomerRevenue` using SUM and GROUP BY.
 - [x] Complete Beginner Views Q9: modify `vw_Users` using ALTER VIEW to return selected customer columns.
 - [x] Complete Beginner Views Q10: safely drop `vw_KarachiUsers` using DROP VIEW IF EXISTS without affecting the underlying Users table or records.
-- [ ] Complete 10 Intermediate Views exercises.
+- [x] Complete Intermediate Views Q11: create `vw_AllCustomerOrders` using LEFT JOIN to retain customers without orders; verify customers with no matching OrderID using `WHERE OrderID IS NULL`.
+- [ ] Complete the remaining 9 Intermediate Views exercises (Q12–Q20).
 - [ ] Complete 10 Beginner Indexes exercises.
 - [ ] Complete 10 Intermediate Indexes exercises.
 - [ ] Complete 10 Beginner Stored Procedures exercises.
